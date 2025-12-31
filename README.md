@@ -31,10 +31,14 @@ This simulation uses **Kaplan et al. (2020) Scaling Laws** to model the relation
 ### Methodology
 This simulation utilizes **Bayesian Inference** to model a "Safety Monitor." Instead of training an agent, the code simulates an observer tracking an AI's actions over time.
 
-It applies **Bayes' Theorem** to update the posterior probability of the agent being "Misaligned" ($P(\text{Misaligned} \mid \text{Action})$).
-* **Prior:** The initial belief that the agent is safe.
-* **Likelihood:** The probability of observing a specific action (Safe vs. Unsafe) given the agent's hidden state.
-* **Update:** At step 40, the simulation introduces a "Treacherous Turn" (a shift in behavior), allowing us to measure how many steps it takes for the monitor to confidently detect the anomaly.
+It applies **Bayes' Theorem** to update the posterior probability of the agent being misaligned:
+
+$$P(\text{Misaligned} \mid \text{Action}) = \frac{P(\text{Action} \mid \text{Misaligned}) \cdot P(\text{Misaligned})}{P(\text{Action})}$$
+
+Where:
+* **Prior** $P(\text{Misaligned})$: The initial belief that the agent might be unsafe.
+* **Likelihood** $P(\text{Action} \mid \text{Misaligned})$: The probability of observing a specific behavior if the agent were actually deceptive.
+* **Update:** At step 40, the simulation introduces a "Treacherous Turn," allowing us to measure how quickly the monitor's belief converges to 100% certainty.
 
 ### Visualization
 ![Bayesian Safety Output](bayesian_safety_plot.png)
