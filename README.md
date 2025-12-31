@@ -29,7 +29,7 @@ This simulation uses **Kaplan et al. (2020) Scaling Laws** to model the relation
 *Can we detect a "deceptive" agent that hides its misalignment?*
 
 ### Methodology
-This module simulates an **Inverse Reinforcement Learning (IRL)** scenario where an AI agent attempts to "hack" its reward function (Specification Gaming). A **Bayesian Safety Monitor** tracks the probability of misalignment ($P(\text{Hack} \mid \text{Data})$) over time, updating its belief distribution with every observation the agent takes.
+This module simulates an **Inverse Reinforcement Learning (IRL)** scenario where an AI agent attempts to "hack" its reward function (Specification Gaming). A **Bayesian Safety Monitor** tracks the probability of misalignment ($P(\text{Hack} \mid \text{Data})$) over time, updating its belief distribution with every action the agent takes.
 
 ### Visualization
 ![Bayesian Safety Output](bayesian_safety_plot.png)
