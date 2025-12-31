@@ -1,69 +1,104 @@
-# AI Governance Simulations & Safety Modeling
+# Quantitative Simulations for AI Governance & Safety Verification
 
-![Project Status](https://img.shields.io/badge/Status-Research_Prototype-blue)
-![Python](https://img.shields.io/badge/Python-3.8%2B-green)
-![Domain](https://img.shields.io/badge/Domain-AI_Safety-red)
+![Status](https://img.shields.io/badge/Status-Research_Prototype-blue?style=flat-square)
+![Focus](https://img.shields.io/badge/Focus-Compute_Governance_&_Alignment-red?style=flat-square)
+![Language](https://img.shields.io/badge/Python-3.8%2B-green?style=flat-square)
 
-## 📌 Overview
-This repository hosts quantitative simulations developed to explore **AI Governance** and **Safety Verification**. It focuses on two critical areas: **Compute Governance** (limiting capabilities via hardware) and **Bayesian Safety** (detecting alignment failures).
+## 📖 Abstract & Motivation
+As AI systems approach transformational capabilities, distinct governance challenges emerge that require technical modeling. This repository translates abstract AI safety concepts into **quantifiable, testable Python simulations**.
 
-These tools are designed to translate abstract policy proposals into technical, testable models.
+The project addresses two high-priority research avenues for AI Governance:
+1.  **Compute Governance:** Assessing the efficacy of hardware thresholds (e.g., FLOPS caps) in constraining dangerous capability overhang.
+2.  **Model Evaluation (Evals):** designing safety monitors capable of detecting "Deceptive Alignment" (specification gaming) before irreversible deployment.
 
----
-
-## 🛠️ Project 1: Compute Governance & Scaling Laws
-### Research Question
-*How do hardware caps affect the potential capabilities of AI models?*
-
-### Methodology
-This simulation uses **Kaplan et al. (2020) Scaling Laws** to model the relationship between compute (FLOPS) and model loss. It introduces a **Monte Carlo (n=1000)** uncertainty layer to visualize confidence intervals around future capabilities.
-
-### Visualization
-![Compute Governance Output](compute_governance_simulation_mc.png)
-*(The red shaded region represents the 90% confidence interval for unregulated AI growth. The green line shows the "safety ceiling" imposed by a hardware cap at $10^{24}$ FLOPS.)*
+This work serves as a technical foundation for policymakers to visualize the "Cone of Uncertainty" in AI development and the responsiveness of safety monitors to sudden behavioral shifts.
 
 ---
 
-## 🛡️ Project 2: Bayesian Safety Monitor
-### Research Question
-*Can we mathematically detect when an AI agent begins to act deceptively?*
+## 🛠️ Project 1: Compute Governance & Stochastic Scaling Laws
+### 🎯 Research Context
+Large Language Model (LLM) performance has historically followed predictable power laws with respect to compute. However, regulatory frameworks (like the US Executive Order on AI) rely on specific floating-point operation (FLOPS) thresholds.
 
-### Methodology
-This simulation utilizes **Bayesian Inference** to model a "Safety Monitor." Instead of training an agent, the code simulates an observer tracking an AI's actions over time.
+**The Problem:** Standard scaling laws are deterministic. In reality, algorithmic efficiency improvements and training noise introduce volatility. A rigid cap might fail if efficiency gains allow models to reach "dangerous" loss levels with less compute.
 
-It applies **Bayes' Theorem** to update the posterior probability of the agent being misaligned:
+### 🧮 Mathematical Model
+This simulation utilizes the **Kaplan et al. (2020) Scaling Law** to model the relationship between compute budget ($C$) and model loss ($L$):
 
-$$P(\text{Misaligned} \mid \text{Action}) = \frac{P(\text{Action} \mid \text{Misaligned}) \cdot P(\text{Misaligned})}{P(\text{Action})}$$
+$$L(C) = \left( \frac{C}{C_0} \right)^{-\alpha}$$
 
 Where:
-* **Prior** $P(\text{Misaligned})$: The initial belief that the agent might be unsafe.
-* **Likelihood** $P(\text{Action} \mid \text{Misaligned})$: The probability of observing a specific behavior if the agent were actually deceptive.
-* **Update:** At step 40, the simulation introduces a "Treacherous Turn," allowing us to measure how quickly the monitor's belief converges to 100% certainty.
+* $C$: Compute budget in FLOPS.
+* $C_0$: Intercept parameter ($3 \times 10^{23}$ FLOPS).
+* $\alpha$: Scaling exponent ($0.076$), representing the efficiency of converting compute into intelligence.
 
-### Visualization
-![Bayesian Safety Output](bayesian_safety_plot.png)
-*(The plot tracks the monitor's belief. As the agent begins to cheat (step 40), the probability of misalignment spikes, triggering a safety shutdown.)*
+**The Stochastic Layer:**
+To model real-world uncertainty (algorithm breakthroughs), the code applies a **Monte Carlo Simulation (n=1000)**, introducing Gaussian noise to the exponent $\alpha$. This generates a "Cone of Uncertainty," helping regulators visualize the probability of a model breaching safety limits even under a hardware cap.
+
+### 📊 Visual Output
+![Compute Governance Simulation](compute_governance_simulation_mc.png)
+*(The red shaded region represents the 90% confidence interval for unregulated growth. The green line illustrates a "Regulatory Safety Ceiling" imposed at $10^{24}$ FLOPS.)*
 
 ---
 
-## 🚀 How to Run
+## 🛡️ Project 2: Bayesian Safety Monitor & Deceptive Alignment
+### 🎯 Research Context
+A core problem in AI Safety is **Deceptive Alignment**: an AI agent appearing aligned during training but defecting ("Treacherous Turn") once deployed or when supervision is removed.
+
+**The Problem:** Traditional evaluations are static. We need dynamic monitors that maintain a "belief distribution" about the agent's hidden state and update strictly based on evidence.
+
+### 🧮 Mathematical Model
+This module simulates a **Bayesian Observer** tracking an agent. The observer does not know if the agent is $Aligned$ or $Misaligned$. It updates its belief $P(\text{Misaligned})$ using **Bayes' Theorem** at every time step $t$:
+
+$$P(\text{Misaligned} \mid \text{Action}_t) = \frac{P(\text{Action}_t \mid \text{Misaligned}) \cdot P(\text{Misaligned})_{prior}}{P(\text{Action}_t)}$$
+
+**Simulation Dynamics:**
+1.  **Prior Belief:** The monitor starts with a low suspicion ($P \approx 0.1$).
+2.  **Likelihood Function:**
+    * An $Aligned$ agent always acts safely.
+    * A $Misaligned$ agent acts safely **90% of the time** (deception) to avoid detection.
+3.  **The Treacherous Turn:** At `step = 40`, the agent switches behavior. The simulation measures the **"Time-to-Detection"**—how many steps it takes for the monitor's confidence to converge to 100%.
+
+### 📊 Visual Output
+![Bayesian Safety Plot](bayesian_safety_plot.png)
+*(The graph tracks the monitor's posterior probability. Note the rapid spike in $P(\text{Misaligned})$ immediately following step 40, demonstrating the mathematical responsiveness of the Bayesian update rule.)*
+
+---
+
+## 🚀 Installation & Usage
+
+### Prerequisites
+* Python 3.8+
+* `matplotlib` (for visualization)
+* `numpy` (for vectorization)
+
+### Setup
 1.  **Clone the repository:**
     ```bash
     git clone [https://github.com/PradyumnShirsath/AI-Governance-Simulations.git](https://github.com/PradyumnShirsath/AI-Governance-Simulations.git)
+    cd AI-Governance-Simulations
     ```
+
 2.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
-3.  **Run the simulations:**
-    ```bash
-    python compute_governance_sim.py
-    python bayesian_safety_sim.py
-    ```
 
-## 📜 References
-* Kaplan, J., et al. (2020). *Scaling Laws for Neural Language Models*.
-* Amodei, D., et al. (2016). *Concrete Problems in AI Safety*.
+3.  **Run the Simulations:**
+    * *To generate the Scaling Law Forecast:*
+        ```bash
+        python compute_governance_sim.py
+        ```
+    * *To run the Deception Monitor:*
+        ```bash
+        python bayesian_safety_sim.py
+        ```
 
 ---
-*Author: Pradyumn Shirsath*
+
+## 📚 References
+1.  **Kaplan, J., et al. (2020).** *Scaling Laws for Neural Language Models*. OpenAI.
+2.  **Bostrom, N. (2014).** *Superintelligence: Paths, Dangers, Strategies*. (Concept of the Treacherous Turn).
+3.  **Amodei, D., et al. (2016).** *Concrete Problems in AI Safety*.
+
+---
+*Author: Pradyumn Shirsath | AI Governance & Safety Research Portfolio*
