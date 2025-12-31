@@ -35,8 +35,11 @@ Where:
 To model real-world uncertainty (algorithm breakthroughs), the code applies a **Monte Carlo Simulation (n=1000)**, introducing Gaussian noise to the exponent $\alpha$. This generates a "Cone of Uncertainty," helping regulators visualize the probability of a model breaching safety limits even under a hardware cap.
 
 ### 📊 Visual Output
-![Compute Governance Simulation](compute_governance_simulation_mc.png)
-*(The red shaded region represents the 90% confidence interval for unregulated growth. The green line illustrates a "Regulatory Safety Ceiling" imposed at $10^{24}$ FLOPS.)*
+<p align="center">
+  <img src="compute_governance_simulation_mc.png" alt="Compute Governance Simulation" width="700">
+  <br>
+  <em>Figure 1: The red shaded region represents the 90% confidence interval for unregulated growth. The green line illustrates a "Regulatory Safety Ceiling" imposed at $10^{24}$ FLOPS.</em>
+</p>
 
 ---
 
@@ -59,8 +62,11 @@ $$P(\text{Misaligned} \mid \text{Action}_t) = \frac{P(\text{Action}_t \mid \text
 3.  **The Treacherous Turn:** At `step = 40`, the agent switches behavior. The simulation measures the **"Time-to-Detection"**—how many steps it takes for the monitor's confidence to converge to 100%.
 
 ### 📊 Visual Output
-![Bayesian Safety Plot](bayesian_safety_plot.png)
-*(The graph tracks the monitor's posterior probability. Note the rapid spike in $P(\text{Misaligned})$ immediately following step 40, demonstrating the mathematical responsiveness of the Bayesian update rule.)*
+<p align="center">
+  <img src="bayesian_safety_plot.png" alt="Bayesian Safety Plot" width="700">
+  <br>
+  <em>Figure 2: The graph tracks the monitor's posterior probability. Note the rapid spike in $P(\text{Misaligned})$ immediately following step 40, demonstrating the mathematical responsiveness of the Bayesian update rule.</em>
+</p>
 
 ---
 
