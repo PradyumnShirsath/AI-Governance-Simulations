@@ -26,10 +26,15 @@ This simulation uses **Kaplan et al. (2020) Scaling Laws** to model the relation
 
 ## 🛡️ Project 2: Bayesian Safety Monitor
 ### Research Question
-*Can we detect a "deceptive" agent that hides its misalignment?*
+*Can we mathematically detect when an AI agent begins to act deceptively?*
 
 ### Methodology
-This module simulates an **Inverse Reinforcement Learning (IRL)** scenario where an AI agent attempts to "hack" its reward function (Specification Gaming). A **Bayesian Safety Monitor** tracks the probability of misalignment ($P(\text{Hack} \mid \text{Data})$) over time, updating its belief distribution with every action the agent takes.
+This simulation utilizes **Bayesian Inference** to model a "Safety Monitor." Instead of training an agent, the code simulates an observer tracking an AI's actions over time.
+
+It applies **Bayes' Theorem** to update the posterior probability of the agent being "Misaligned" ($P(\text{Misaligned} \mid \text{Action})$).
+* **Prior:** The initial belief that the agent is safe.
+* **Likelihood:** The probability of observing a specific action (Safe vs. Unsafe) given the agent's hidden state.
+* **Update:** At step 40, the simulation introduces a "Treacherous Turn" (a shift in behavior), allowing us to measure how many steps it takes for the monitor to confidently detect the anomaly.
 
 ### Visualization
 ![Bayesian Safety Output](bayesian_safety_plot.png)
