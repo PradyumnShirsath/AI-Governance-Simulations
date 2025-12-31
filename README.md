@@ -37,7 +37,7 @@ To model real-world uncertainty (algorithm breakthroughs), the code applies a **
 ### 📊 Visual Output
 ![Compute Governance Simulation](compute_governance_simulation_mc.png)
 
-*Figure 1: The red shaded region represents the 90% confidence interval for unregulated growth. The green line illustrates a "Regulatory Safety Ceiling" imposed at $10^{24}$ FLOPS.*
+*Figure 1: The red shaded region represents the 90% confidence interval for unregulated growth. The green line illustrates a "Regulatory Safety Ceiling" imposed at 10^24 FLOPS.*
 
 ---
 
@@ -62,7 +62,7 @@ $$P(\text{Misaligned} \mid \text{Action}_t) = \frac{P(\text{Action}_t \mid \text
 ### 📊 Visual Output
 ![Bayesian Safety Plot](bayesian_safety_plot.png)
 
-*Figure 2: The graph tracks the monitor's posterior probability. Note the rapid spike in $P(\text{Misaligned})$ immediately following step 40, demonstrating the mathematical responsiveness of the Bayesian update rule.*
+*Figure 2: The graph tracks the monitor's posterior probability. Note the rapid spike in P(Misaligned) immediately following step 40, demonstrating the mathematical responsiveness of the Bayesian update rule.*
 
 ---
 
