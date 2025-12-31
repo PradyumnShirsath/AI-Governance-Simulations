@@ -76,7 +76,7 @@ $$P(\text{Misaligned} \mid \text{Action}_t) = \frac{P(\text{Action}_t \mid \text
 ### Setup
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/PradyumnShirsath/AI-Governance-Simulations.git](https://github.com/PradyumnShirsath/AI-Governance-Simulations.git)
+    git clone https://github.com/PradyumnShirsath/AI-Governance-Simulations.git
     ```
 
 2.  **Install dependencies:**
